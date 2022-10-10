@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ProductService } from 'src/app/shared/product.service';
 
 @Component({
   selector: 'app-add-page',
@@ -9,17 +11,17 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 export class AddPageComponent implements OnInit {
 
   submitted = false;
-  form!: UntypedFormGroup;
+  form!: FormGroup;
 
-  constructor() { }
+  constructor(private productServ: ProductService, private router: Router) { }
 
   ngOnInit(): void {
-    this.form = new UntypedFormGroup({
-      type: new UntypedFormControl(null, Validators.required),
-      title: new UntypedFormControl(null, Validators.required),
-      photo: new UntypedFormControl(null, Validators.required),
-      info: new UntypedFormControl(null, Validators.required),
-      price: new UntypedFormControl(null, Validators.required)
+    this.form = new FormGroup({
+      type: new FormControl(null, Validators.required),
+      title: new FormControl(null, Validators.required),
+      photo: new FormControl(null, Validators.required),
+      info: new FormControl(null, Validators.required),
+      price: new FormControl(null, Validators.required)
     })
   }
 
@@ -28,13 +30,22 @@ export class AddPageComponent implements OnInit {
       return
     }
 
+    this.submitted = true;
+
     const product = {
       type: this.form.value.type,
       title: this.form.value.title,
       photo: this.form.value.photo,
       info: this.form.value.info,
-      price: this.form.value.price
+      price: this.form.value.price,
+      date: new Date()
     }
+
+    this.productServ.create(product).subscribe(res => {
+      this.form.reset;
+      this.submitted = false;
+      this.router.navigate(['/']);
+    })
   }
 
 }

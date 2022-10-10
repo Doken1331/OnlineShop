@@ -21,10 +21,7 @@ export class LoginPageComponent implements OnInit {
     })
   }
 
-  public submit() {
-    if ( this.form.invalid ) {
-      return;
-    }
+  public async submit() {
 
     this.submitted = true;
 
@@ -34,15 +31,15 @@ export class LoginPageComponent implements OnInit {
       returnSecureToken: true
     }
 
-    this.auth.login(user).subscribe(res => {
-      console.log(res)
-      this.form.reset;
+    await this.auth.login(user).then(() => {
       this.router.navigate(['/admin', 'dashboard']);
-      this.submitted = false;
-    }, () => {
-      this.submitted = false;
-    }
-    )
+    },
+    error => {
+      
+    });
+
+    this.submitted = false;
+    
   }
 
 }

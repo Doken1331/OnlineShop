@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiKey: "AIzaSyB2uWDGlvQnrKvqT4jj81MCs0cZJrhuwMM"
+  apiKey: "AIzaSyB2uWDGlvQnrKvqT4jj81MCs0cZJrhuwMM",
+  fbDbUrl: "https://online-shop-852c6-default-rtdb.firebaseio.com/"
 };
 
 /*
